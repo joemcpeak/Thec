@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Thec.Core
 {
-    interface ITripMetricsProvider
+    public interface ITripMetricsProvider
     {
-        TripMetrics GetMetrics (TripProvider tripProvider, Borough startBorough, Borough borough, TimeSpan tripPickupTime);
+        TripMetrics GetMetrics (Borough startBorough, Borough borough, TimeSpan tripPickupTime);
     }
 }

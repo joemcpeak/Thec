@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Thec.Core
 {
-    // the only trip providers we support.
+    // the only driving services we support.
     // this is baked into Core rather than expecting each trip provider to be in a different assembly that is loaded via reflection based on config, since there
     // is no requirement for that level of flexibility
-    public enum TripProvider
+    public enum DrivingService
     {
         YellowTaxi,
         GreenTaxi,

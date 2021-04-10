@@ -7,7 +7,7 @@ namespace Thec.Core
 
     public class TripMetrics
     {
-        public TripProvider TripProvider { get; set; }
+        public DrivingService TripProvider { get; set; }
         public Borough StartBorough { get; set; }
         public Borough StopBorough { get; set; }
         public TimeSpan TripTime { get; set; }
