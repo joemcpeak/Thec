@@ -35,7 +35,7 @@ namespace Thec.Core
 
             for (int i = 1; i < lines.Length; i++)
             {
-                var fields = lines[i].Split(new char[] { ',' });
+                var fields = lines[i].Split(',');
                 // strip off double quotes and collapse spaces (thank you, Staten Island) before converting the string to teh Borough enum value
                 var borough = (Borough)Enum.Parse(typeof(Borough), fields[1].Replace("\"", "").Replace(" ", ""));
                 taxiZones.Add(int.Parse(fields[0]), borough);

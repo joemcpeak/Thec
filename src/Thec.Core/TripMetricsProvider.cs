@@ -16,7 +16,7 @@ namespace Thec.Core
             _drivingServiceDataProvider = drivingServiceDataProvider;
         }
 
-        public TripMetrics GetMetrics (DrivingService drivingService, Borough startBorough, Borough stopBorough, TimeSpan tripPickupTime)
+        public ITripMetrics GetMetrics (DrivingService drivingService, Borough startBorough, Borough stopBorough, TimeSpan tripPickupTime)
         {
             // decide which provider to use
             ITripMetricsProvider tmp;

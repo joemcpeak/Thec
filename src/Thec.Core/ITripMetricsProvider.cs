@@ -6,6 +6,6 @@ namespace Thec.Core
 {
     public interface ITripMetricsProvider
     {
-        TripMetrics GetMetrics (Borough startBorough, Borough borough, TimeSpan tripPickupTime);
+        ITripMetrics GetMetrics (Borough startBorough, Borough stopBorough, TimeSpan tripPickupTime);
     }
 }

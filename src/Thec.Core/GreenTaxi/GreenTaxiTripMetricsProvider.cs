@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Thec.Core
@@ -25,9 +26,39 @@ namespace Thec.Core
             _trips = ParseHistoricalCsvData(data);
         }
 
-        public TripMetrics GetMetrics (Borough startBorough, Borough borough, TimeSpan tripPickupTime)
+        public ITripMetrics GetMetrics (Borough startBorough, Borough stopBorough, TimeSpan tripPickupTime)
         {
-            return new TripMetrics();
+            var windowMinutes = int.Parse(_configuration["StartTimeWindowMinutes"]);
+
+            TimeSpan startTime = tripPickupTime - new TimeSpan(0, windowMinutes, 0);
+            TimeSpan stopTime = tripPickupTime + new TimeSpan(0, windowMinutes, 0);
+
+            // find the historical trips relevant to this request
+            var relevantTrips = _trips.Where(t => t.StartBorough == startBorough &&
+                                                  t.StopBorough == stopBorough &&
+                                                  (t.PickupDateTime.TimeOfDay >= startTime && t.PickupDateTime.TimeOfDay <= stopTime)
+                                             );
+
+            // if no trips were relevant, we can't return any metrics
+            if (!relevantTrips.Any())
+                return null;
+
+            // otherwise let's compute some metrics!
+            var metrics = new GreenTaxiTripMetrics();
+            metrics.TripCount = relevantTrips.Count();
+            metrics.StartBorough = startBorough;
+            metrics.StopBorough = stopBorough;
+            metrics.TripTime = tripPickupTime;
+            metrics.AverageTripDuration = TimeSpan.FromSeconds((relevantTrips.Average(t => (t.DropoffDateTime - t.PickupDateTime).TotalSeconds)));
+            metrics.AveragePassengerCount = Convert.ToDecimal(relevantTrips.Average(t => t.PassengerCount));
+            metrics.MaximumPassengerCount = relevantTrips.Max(t => t.PassengerCount);
+            metrics.AverageTripDistance = Convert.ToDecimal(relevantTrips.Average(t => t.TripDistance));
+            metrics.MaximumTripDistance = Convert.ToDecimal(relevantTrips.Max(t => t.TripDistance));
+            metrics.AverageTotalAmount = Convert.ToDecimal(relevantTrips.Average(t => t.TotalAmount));
+            metrics.MaximumTotalAmount = Convert.ToDecimal(relevantTrips.Average(t => t.TotalAmount));
+
+            // return the completed metrics
+            return metrics;
         }
 
         private List<GreenTaxiTrip> ParseHistoricalCsvData (List<string> data)
@@ -44,8 +75,12 @@ namespace Thec.Core
             // parse each line
             foreach (var line in data)
             {
+                // skip blank lines
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
                 // split the line apart
-                var fields = line.Split(new char[] { ',' });
+                var fields = line.Split(',');
 
                 // make sure the line has the number of fields we expect
                 if (fields.Length != expectedFieldCount)
