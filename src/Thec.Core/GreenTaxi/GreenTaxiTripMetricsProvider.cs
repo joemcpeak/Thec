@@ -55,7 +55,7 @@ namespace Thec.Core
             metrics.AverageTripDistance = Convert.ToDecimal(relevantTrips.Average(t => t.TripDistance));
             metrics.MaximumTripDistance = Convert.ToDecimal(relevantTrips.Max(t => t.TripDistance));
             metrics.AverageTotalAmount = Convert.ToDecimal(relevantTrips.Average(t => t.TotalAmount));
-            metrics.MaximumTotalAmount = Convert.ToDecimal(relevantTrips.Average(t => t.TotalAmount));
+            metrics.MaximumTotalAmount = Convert.ToDecimal(relevantTrips.Max(t => t.TotalAmount));
 
             // return the completed metrics
             return metrics;
