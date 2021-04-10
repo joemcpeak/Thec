@@ -22,7 +22,8 @@ namespace Thec.Core
         EWR,
         Manhattan,
         Queens,
-        StatenIsland
+        StatenIsland,
+        Unknown
     }
 }
 

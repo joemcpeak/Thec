@@ -8,13 +8,12 @@ using Thec.Core;
 
 namespace Thec.Infra
 {
-    public class CsvFileDrivingServiceDataProvider : IDrivingServiceDataProvider
+    public class FileDrivingServiceDataProvider : IDrivingServiceDataProvider
     {
-
         IConfiguration _configuration;
         string _name;
 
-        public CsvFileDrivingServiceDataProvider (IConfiguration configuration, string name)
+        public FileDrivingServiceDataProvider (IConfiguration configuration, string name)
         {
             _configuration = configuration;
             _name = name;
@@ -22,7 +21,7 @@ namespace Thec.Infra
 
         public List<string> GetData ()
         {
-            var path = _configuration["CsvFileDrivingServiceDataProvider:FolderPath"];
+            var path = _configuration[$"{nameof(FileDrivingServiceDataProvider)}:FolderPath"];
 
             var fullName = Path.Combine(path, _name + ".csv");
 

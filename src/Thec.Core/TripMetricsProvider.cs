@@ -7,18 +7,13 @@ namespace Thec.Core
 {
     public class TripMetricsProvider
     {
-        ITripMetricsProvider _greenTaxiTripMetricsProvider;
-        ITripMetricsProvider _yellowTaxiTripMetricsProvider;
-        ITripMetricsProvider _forHireVehicleTripMetricsProvider;
-
-
-        IDrivingServiceDataProvider _drivingServiceDataProvider;
         IConfiguration _configuration;
+        IDrivingServiceDataProvider _drivingServiceDataProvider;
 
-        public TripMetricsProvider (IDrivingServiceDataProvider drivingServiceDataProvider, IConfiguration configuration)
+        public TripMetricsProvider (IConfiguration configuration, IDrivingServiceDataProvider drivingServiceDataProvider)
         {
-            _drivingServiceDataProvider = drivingServiceDataProvider;
             _configuration = configuration;
+            _drivingServiceDataProvider = drivingServiceDataProvider;
         }
 
         public TripMetrics GetMetrics (DrivingService drivingService, Borough startBorough, Borough stopBorough, TimeSpan tripPickupTime)
@@ -26,7 +21,7 @@ namespace Thec.Core
             // decide which provider to use
             ITripMetricsProvider tmp;
             if (drivingService == DrivingService.GreenTaxi)
-                tmp = _greenTaxiTripMetricsProvider;
+                tmp = new GreenTaxiTripMetricsProvider(_configuration, _drivingServiceDataProvider);
             else
                 throw new NotSupportedException($"Trip Provider '{drivingService}' is not supported.");
 

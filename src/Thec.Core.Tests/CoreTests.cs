@@ -23,21 +23,15 @@ namespace Thec.Core.Tests
         [TestMethod]
         public void TestGreenTaxi1 ()
         {
-            var aa = new CsvFileDrivingServiceDataProvider(_configuration, DrivingService.GreenTaxi.ToString());
+            var drivingServices = DrivingService.GreenTaxi;
+            var startBorough = Borough.Brooklyn;
+            var stopBorough = Borough.Queens;
+            var tripStartTime = TimeSpan.Parse("15:20");
 
+            var dataProvider = new FileDrivingServiceDataProvider(_configuration, drivingServices.ToString());
+            var tripMetricsProvider = new TripMetricsProvider(_configuration, dataProvider);
 
-            var x = aa.GetData();
-
-            //var p = new Core.TripMetricsProvider();
-            //p.Initialize();
-
-            //var tripProvider = DrivingService.GreenTaxi;
-            //var startBorough = Borough.Brooklyn;
-            //var stopBorough = Borough.Queens;
-            //var tripStartTime = TimeSpan.Parse("15:20");
-
-            //var metrics = p.GetMetrics(tripProvider, startBorough, stopBorough, tripStartTime);
+            var metrics = tripMetricsProvider.GetMetrics(drivingServices, startBorough, stopBorough, tripStartTime);
         }
-
     }
 }
