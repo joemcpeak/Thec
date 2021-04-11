@@ -10,7 +10,6 @@ namespace Thec.Core.Tests
     [TestClass]
     public class GreenTaxiTests
     {
-
         private readonly IConfigurationRoot _configuration;
 
         public GreenTaxiTests ()
@@ -24,15 +23,15 @@ namespace Thec.Core.Tests
         [TestMethod]
         public void TestGreenTaxi1 ()
         {
-            var drivingServices = DrivingService.GreenTaxi;
+            var drivingService = DrivingService.GreenTaxi;
             var startBorough = Borough.Manhattan;
             var stopBorough = Borough.Manhattan;
             var tripStartTime = TimeSpan.Parse("00:30");
 
-            var dataProvider = new FileDrivingServiceDataProvider(_configuration, drivingServices.ToString());
-            var tripMetricsProvider = new TripMetricsProvider(_configuration, dataProvider);
+            var dataProvider = new FileDrivingServiceDataProvider(_configuration);
+            var tripMetricsManager = new TripMetricsManager(_configuration, dataProvider);
 
-            var metrics = tripMetricsProvider.GetMetrics(drivingServices, startBorough, stopBorough, tripStartTime);
+            var metrics = tripMetricsManager.GetMetrics(drivingService, startBorough, stopBorough, tripStartTime);
         }
 
         [TestMethod]
@@ -50,9 +49,9 @@ namespace Thec.Core.Tests
 2,2018-01-01 00:30:26,2018-01-01 00:46:42,N,1,19,42,5,3.50,14.5,0.5,0.5,0,0,,0.3,15.8,2,1
 ";
             var dataProvider = new StringDrivingServiceDataProvider(_configuration, data);
-            var tripMetricsProvider = new TripMetricsProvider(_configuration, dataProvider);
+            var tripMetricsManager = new TripMetricsManager(_configuration, dataProvider);
 
-            var metrics = tripMetricsProvider.GetMetrics(drivingServices, startBorough, stopBorough, tripStartTime);
+            var metrics = tripMetricsManager.GetMetrics(drivingServices, startBorough, stopBorough, tripStartTime);
 
             Assert.IsNull(metrics);
         }
@@ -72,9 +71,9 @@ namespace Thec.Core.Tests
 2,2018-01-01 00:30:26,2018-01-01 00:46:42,N,1,19,42,5,3.50,14.5,0.5,0.5,0,0,,0.3,15.8,2,1
 ";
             var dataProvider = new StringDrivingServiceDataProvider(_configuration, data);
-            var tripMetricsProvider = new TripMetricsProvider(_configuration, dataProvider);
+            var tripMetricsManager = new TripMetricsManager(_configuration, dataProvider);
 
-            var metrics = tripMetricsProvider.GetMetrics(drivingServices, startBorough, stopBorough, tripStartTime) as GreenTaxiTripMetrics;
+            var metrics = tripMetricsManager.GetMetrics(drivingServices, startBorough, stopBorough, tripStartTime) as GreenTaxiTripMetrics;
 
             // since only one trip shoudl qualify, all these metrics shoudl exactly equal the values for that single trip
             Assert.AreEqual(5, metrics.AveragePassengerCount);
@@ -108,9 +107,9 @@ namespace Thec.Core.Tests
 2,2018-01-01 00:30:26,2018-01-01 00:46:42,N,1,19,42,5,3.50,14.5,0.5,0.5,0,0,,0.3,15.8,2,1
 ";
             var dataProvider = new StringDrivingServiceDataProvider(_configuration, data);
-            var tripMetricsProvider = new TripMetricsProvider(_configuration, dataProvider);
+            var tripMetricsManager = new TripMetricsManager(_configuration, dataProvider);
 
-            var metrics = tripMetricsProvider.GetMetrics(drivingServices, startBorough, stopBorough, tripStartTime) as GreenTaxiTripMetrics;
+            var metrics = tripMetricsManager.GetMetrics(drivingServices, startBorough, stopBorough, tripStartTime) as GreenTaxiTripMetrics;
 
             // since only one trip should qualify, all these metrics should exactly equal the values for that single trip
             Assert.AreEqual(3, metrics.AveragePassengerCount);

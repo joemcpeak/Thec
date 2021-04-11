@@ -11,19 +11,17 @@ namespace Thec.Infra
     public class FileDrivingServiceDataProvider : IDrivingServiceDataProvider
     {
         IConfiguration _configuration;
-        string _name;
 
-        public FileDrivingServiceDataProvider (IConfiguration configuration, string name)
+        public FileDrivingServiceDataProvider (IConfiguration configuration)
         {
             _configuration = configuration;
-            _name = name;
         }
 
-        public List<string> GetData ()
+        public List<string> GetData (DrivingService drivingService)
         {
             var path = _configuration[$"{nameof(FileDrivingServiceDataProvider)}:FolderPath"];
 
-            var fullName = Path.Combine(path, _name + ".csv");
+            var fullName = Path.Combine(path, drivingService.ToString() + ".csv");
 
             List<string> allLines = File.ReadAllLines(fullName).ToList();
             return allLines;

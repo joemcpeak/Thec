@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Thec.Core
 {
-    public class TripMetricsProvider
+    public class TripMetricsManager : ITripMetricsManager
     {
-        IConfiguration _configuration;
-        IDrivingServiceDataProvider _drivingServiceDataProvider;
+        private readonly IConfiguration _configuration;
+        private readonly IDrivingServiceDataProvider _drivingServiceDataProvider;
 
-        public TripMetricsProvider (IConfiguration configuration, IDrivingServiceDataProvider drivingServiceDataProvider)
+        public TripMetricsManager (IConfiguration configuration, IDrivingServiceDataProvider drivingServiceDataProvider)
         {
             _configuration = configuration;
             _drivingServiceDataProvider = drivingServiceDataProvider;
@@ -23,7 +23,7 @@ namespace Thec.Core
             if (drivingService == DrivingService.GreenTaxi)
                 tmp = new GreenTaxiTripMetricsProvider(_configuration, _drivingServiceDataProvider);
             else
-                throw new NotSupportedException($"Trip Provider '{drivingService}' is not supported.");
+                throw new NotSupportedException($"Trip Provider '{drivingService}' is not yet supported.");
 
             // get metrics from the provider
             var tripMetrics = tmp.GetMetrics(startBorough, stopBorough, tripPickupTime);

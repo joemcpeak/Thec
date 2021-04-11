@@ -19,7 +19,7 @@ namespace Thec.Infra
             _data = data;
         }
 
-        public List<string> GetData ()
+        public List<string> GetData (DrivingService drivingService)
         {
             return _data.Split('\n').ToList();
         }

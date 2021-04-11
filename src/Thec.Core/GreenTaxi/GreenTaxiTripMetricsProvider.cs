@@ -9,10 +9,10 @@ namespace Thec.Core
 {
     public class GreenTaxiTripMetricsProvider : ITripMetricsProvider
     {
-        IConfiguration _configuration;
-        IDrivingServiceDataProvider _drivingServiceDataProvider;
-        TaxiZoneLookupProvider _taxiZoneLookupProvider;
-        List<GreenTaxiTrip> _trips;
+        private readonly IConfiguration _configuration;
+        private readonly IDrivingServiceDataProvider _drivingServiceDataProvider;
+        private readonly TaxiZoneLookupProvider _taxiZoneLookupProvider;
+        private readonly List<GreenTaxiTrip> _trips;
 
         public GreenTaxiTripMetricsProvider (IConfiguration configuration, IDrivingServiceDataProvider drivingServiceDataProvider)
         {
@@ -22,7 +22,7 @@ namespace Thec.Core
             _taxiZoneLookupProvider = new TaxiZoneLookupProvider(_configuration);
 
             // get and parse the historical trip data
-            var data = _drivingServiceDataProvider.GetData();
+            var data = _drivingServiceDataProvider.GetData(DrivingService.GreenTaxi);
             _trips = ParseHistoricalCsvData(data);
         }
 

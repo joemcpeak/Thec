@@ -9,8 +9,8 @@ namespace Thec.Core
 
     public class TaxiZoneLookupProvider
     {
-        IConfiguration _configuration;
-        Dictionary<int, Borough> _taxiZones;
+        private readonly IConfiguration _configuration;
+        private readonly Dictionary<int, Borough> _taxiZones;
 
         public TaxiZoneLookupProvider (IConfiguration configuration)
         {
