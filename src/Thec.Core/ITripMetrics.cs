@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Thec.Core
 {
-    public class ITripMetrics
+    public interface ITripMetrics
     {
         DrivingService DrivingService { get; set; }
         Borough StartBorough { get; set; }
