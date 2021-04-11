@@ -13,17 +13,18 @@ I have implemented the THEC as an ASP.NET Core web API, and I have used Swagger 
 3. Build the solution to restore the necessary NuGet packages.
 4. Unzip file &quot;Thec.zip&quot; from the root of the repo to anywhere on your local machine.
 5. In project Thec.Service, edit appsettings.json to specify the location of where you unzipped the data to.
-  1. The FileDrivingServiceDataProvider:FolderPath setting must specify just the folder location.
-  2. The TaxiZoneLookupProvider:FilePath setting must specify the complete path to file TaxiZoneLoop.csv
-  3. Don&#39;t forget to escape all &quot;\&quot; characters.
+    1. The FileDrivingServiceDataProvider:FolderPath setting must specify just the folder location.
+    2. The TaxiZoneLookupProvider:FilePath setting must specify the complete path to file TaxiZoneLoop.csv
+    3. Don&#39;t forget to escape all &quot;\&quot; characters.
+6. (Optional) Set Thec.Service as your startup project in the solution.
 
 # Testing via the Swagger UI
 
 1. Start project Thec.Service to launch the web API and navigate to the Swagger page.
 2. Give it a try. A few notes:
-  1. Only GreenTaxi is supported right now, anything else will generate an exception.
-  2. When specifying the trip pickup time, specify a string value in HH:MM military format.
-  3. Here is an example that should qualify some information:
+    1. Only GreenTaxi is supported right now, anything else will generate an exception.
+    2. When specifying the trip pickup time, specify a string value in HH:MM military format.
+    3. Here is an example that should qualify some information:
 
 ![image](https://user-images.githubusercontent.com/47675032/114312718-a6a30800-9ac1-11eb-9c34-48ca2b52cb68.png)
 
