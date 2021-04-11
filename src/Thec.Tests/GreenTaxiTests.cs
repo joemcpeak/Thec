@@ -21,7 +21,7 @@ namespace Thec.Core.Tests
         }
 
         [TestMethod]
-        public void TestGreenTaxi1 ()
+        public void TestWithFileData ()
         {
             var drivingService = DrivingService.GreenTaxi;
             var startBorough = Borough.Manhattan;
@@ -32,6 +32,9 @@ namespace Thec.Core.Tests
             var tripMetricsManager = new TripMetricsManager(_configuration, dataProvider);
 
             var metrics = tripMetricsManager.GetMetrics(drivingService, startBorough, stopBorough, tripStartTime);
+            
+            Assert.IsNotNull(metrics);
+            Assert.AreEqual(23, metrics.TripCount);
         }
 
         [TestMethod]
@@ -75,7 +78,7 @@ namespace Thec.Core.Tests
 
             var metrics = tripMetricsManager.GetMetrics(drivingServices, startBorough, stopBorough, tripStartTime) as GreenTaxiTripMetrics;
 
-            // since only one trip shoudl qualify, all these metrics shoudl exactly equal the values for that single trip
+            // since only one trip should qualify, all these metrics shoudl exactly equal the values for that single trip
             Assert.AreEqual(5, metrics.AveragePassengerCount);
             Assert.AreEqual(7.3m, metrics.AverageTotalAmount);
             Assert.AreEqual(0.70m, metrics.AverageTripDistance);
