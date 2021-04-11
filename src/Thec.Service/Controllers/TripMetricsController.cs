@@ -35,8 +35,8 @@ namespace Thec.Service.Controllers
             if (TimeSpan.TryParse(tripPickupTime, out TimeSpan ts) == false)
                 return BadRequest("tripPickupTime is not a valid time.");
 
-            if (ts.Days != 0)
-                return BadRequest("tripPickupTime must be a time only and you may not specify any days.");
+            if (ts.TotalHours >= 24)
+                return BadRequest("tripPickupTime must be a time of day and so must be between 00:00 and 23:59.");
 
             var metrics = _tripMetricsManager.GetMetrics(drivingService, startBorough, stopBorough, ts);
 
