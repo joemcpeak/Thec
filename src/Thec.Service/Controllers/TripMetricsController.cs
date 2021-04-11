@@ -25,6 +25,10 @@ namespace Thec.Service.Controllers
             _tripMetricsManager = tripMetricsManager;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
         public ActionResult<ITripMetrics> Get (DrivingService drivingService, Borough startBorough, Borough stopBorough, string tripPickupTime)
         {
@@ -35,6 +39,9 @@ namespace Thec.Service.Controllers
                 return BadRequest("tripPickupTime must be a time only and you may not specify any days.");
 
             var metrics = _tripMetricsManager.GetMetrics(drivingService, startBorough, stopBorough, ts);
+
+            if (metrics == null)
+                return NoContent();
 
             return Ok(metrics);
         }

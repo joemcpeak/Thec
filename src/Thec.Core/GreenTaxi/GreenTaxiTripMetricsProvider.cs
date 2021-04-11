@@ -106,7 +106,7 @@ namespace Thec.Core
                 trip.ImprovementSurcharge = decimal.Parse(fields[15]);
                 trip.TotalAmount = decimal.Parse(fields[16]);
                 trip.PaymentType = int.Parse(fields[17]);
-                trip.TripType = int.Parse(fields[18]);
+                trip.TripType = string.IsNullOrWhiteSpace(fields[18]) ? 0 : int.Parse(fields[18]);
 
                 // derive some additional info
                 trip.StartBorough = _taxiZoneLookupProvider.GetBoroughForTaxiZone(trip.PickupLocationID);
